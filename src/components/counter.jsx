@@ -1,29 +1,23 @@
 import React, { Component } from "react";
 
 class Counter extends Component {
-  state = {
-    //js object that includes any data that this component needs
-    value: this.props.counter.value //gets the value from counter.jsx
-  };
+  //with this method, we can decided whether or not
+  //we want to make an ajax call to get more data
+  componentDidUpdate(prevProps, prevState) {
+    console.log("prevProps", prevProps);
+    console.log("prevState", prevState);
+  }
 
-  // constructor() {
-  //   super();
-  //   this.handleIncrement = this.handleIncrement.bind(this);
-  // }
-
-  handleIncrement = product => {
-    //this.state.count++ doesn't work because you specifically
-    //need to tell react what is changed
-    this.setState({ value: this.state.value + 1 });
-  };
+  componentWillUnmount() {
+    console.log("Counter - Unmount");
+  }
 
   render() {
     return (
       <div>
-        {this.props.children}
         <span className={this.getBadgeClasses()}>{this.formatCount()}</span>
         <button
-          onClick={() => this.handleIncrement({ id: 1 })} //in-line function
+          onClick={() => this.props.onIncrement(this.props.counter)} //in-line function
           className="btn btn-secondary btn-sm"
         >
           Increment
@@ -40,12 +34,13 @@ class Counter extends Component {
 
   getBadgeClasses() {
     let classes = "badge m-2 badge-";
-    classes += this.state.value === 0 ? "warning" : "primary";
+    classes += this.props.counter.value === 0 ? "warning" : "primary";
     return classes;
   }
 
   formatCount() {
-    return this.state.value == 0 ? "Zero" : this.state.value;
+    const { value } = this.props.counter;
+    return value === 0 ? "Zero" : value;
   }
 }
 
