@@ -3,7 +3,7 @@ import React, { Component } from "react";
 class Counter extends Component {
   state = {
     //js object that includes any data that this component needs
-    count: 0
+    value: this.props.counter.value //gets the value from counter.jsx
   };
 
   // constructor() {
@@ -14,13 +14,13 @@ class Counter extends Component {
   handleIncrement = product => {
     //this.state.count++ doesn't work because you specifically
     //need to tell react what is changed
-    console.log(product);
-    this.setState({ count: this.state.count + 1 });
+    this.setState({ value: this.state.value + 1 });
   };
 
   render() {
     return (
       <div>
+        {this.props.children}
         <span className={this.getBadgeClasses()}>{this.formatCount()}</span>
         <button
           onClick={() => this.handleIncrement({ id: 1 })} //in-line function
@@ -28,18 +28,24 @@ class Counter extends Component {
         >
           Increment
         </button>
+        <button
+          onClick={() => this.props.onDelete(this.props.counter.id)} //raising an event
+          className="btn btn-danger gtn-sm m-2"
+        >
+          Delete
+        </button>
       </div>
     ); //JSX Expression -> React.createElement()
   }
 
   getBadgeClasses() {
     let classes = "badge m-2 badge-";
-    classes += this.state.count === 0 ? "warning" : "primary";
+    classes += this.state.value === 0 ? "warning" : "primary";
     return classes;
   }
 
   formatCount() {
-    return this.state.count == 0 ? "Zero" : this.state.count;
+    return this.state.value == 0 ? "Zero" : this.state.value;
   }
 }
 
