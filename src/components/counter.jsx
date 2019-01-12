@@ -8,6 +8,7 @@ class Counter extends Component {
     console.log("prevState", prevState);
   }
 
+  //can be used for clean-ups when removing stuff
   componentWillUnmount() {
     console.log("Counter - Unmount");
   }
